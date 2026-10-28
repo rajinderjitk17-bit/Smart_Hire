@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Batch Prediction - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">Batch CSV prediction</span>
+        <h1>Bulk Student Assessment</h1>
+        <p>Upload student profiles and receive placement predictions, role recommendations, readiness scores, strengths, and weak areas.</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Upload CSV</h2>
+                    <form method="post" enctype="multipart/form-data" class="mt-3">
+                        <input type="file" class="form-control form-control-lg" name="csv_file" accept=".csv" required>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <button class="btn btn-accent btn-lg" type="submit">Run Batch Prediction</button>
+                            {% if sample_exists %}
+                                <a class="btn btn-outline-dark btn-lg" href="{{ url_for('sample_batch') }}">Sample CSV</a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Expected Feature Contract</h2>
+                    <div class="feature-chip-list">
+                        {% for column in required_columns %}
+                            <span>{{ column }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if result_table %}
+            <div class="panel mt-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h2 class="form-section-title">Batch Results Preview</h2>
+                    <a href="{{ url_for('download', filename=download_filename) }}" class="btn btn-success">Download Results CSV</a>
+                </div>
+                <div class="table-responsive batch-table">
+                    <table class="table smart-table">
+                        <thead>
+                        <tr>
+                            {% for key in result_table[0].keys() %}
+                                <th>{{ key.replace('_', ' ')|title }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in result_table %}
+                            <tr>
+                                {% for value in row.values() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

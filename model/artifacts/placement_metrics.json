@@ -1,0 +1,180 @@
+{
+  "task": "placement_prediction",
+  "best_model": "Gradient Boosting",
+  "comparison": {
+    "Logistic Regression": {
+      "accuracy": 0.7627,
+      "precision": 0.827,
+      "recall": 0.7629,
+      "f1": 0.7937,
+      "roc_auc": 0.8387,
+      "selection_score": 0.8109
+    },
+    "Decision Tree": {
+      "accuracy": 0.6818,
+      "precision": 0.7558,
+      "recall": 0.6915,
+      "f1": 0.7222,
+      "roc_auc": 0.7473,
+      "selection_score": 0.7295
+    },
+    "Random Forest": {
+      "accuracy": 0.7336,
+      "precision": 0.7948,
+      "recall": 0.7477,
+      "f1": 0.7706,
+      "roc_auc": 0.8118,
+      "selection_score": 0.7854
+    },
+    "Extra Trees": {
+      "accuracy": 0.7391,
+      "precision": 0.8026,
+      "recall": 0.7477,
+      "f1": 0.7742,
+      "roc_auc": 0.8175,
+      "selection_score": 0.7902
+    },
+    "Gradient Boosting": {
+      "accuracy": 0.7627,
+      "precision": 0.7864,
+      "recall": 0.8283,
+      "f1": 0.8068,
+      "roc_auc": 0.8277,
+      "selection_score": 0.8118
+    }
+  },
+  "test_size": 1100,
+  "train_size": 3900,
+  "positive_rate": 0.598,
+  "selected_feature_count": 42,
+  "dropped_feature_count": 27,
+  "top_features": [
+    {
+      "feature": "cgpa",
+      "selected": true,
+      "kbest_score": 972.1597,
+      "tree_importance": 0.038095,
+      "combined_score": 1.0
+    },
+    {
+      "feature": "programming_skills",
+      "selected": true,
+      "kbest_score": 776.46765,
+      "tree_importance": 0.035824,
+      "combined_score": 0.86068
+    },
+    {
+      "feature": "aptitude_score",
+      "selected": true,
+      "kbest_score": 759.67617,
+      "tree_importance": 0.035166,
+      "combined_score": 0.84289
+    },
+    {
+      "feature": "tenth_percentage",
+      "selected": true,
+      "kbest_score": 766.24146,
+      "tree_importance": 0.033134,
+      "combined_score": 0.821017
+    },
+    {
+      "feature": "core_cs_fundamentals",
+      "selected": true,
+      "kbest_score": 657.03207,
+      "tree_importance": 0.03351,
+      "combined_score": 0.763959
+    },
+    {
+      "feature": "problem_solving",
+      "selected": true,
+      "kbest_score": 653.77304,
+      "tree_importance": 0.032407,
+      "combined_score": 0.748221
+    },
+    {
+      "feature": "twelfth_percentage",
+      "selected": true,
+      "kbest_score": 639.87461,
+      "tree_importance": 0.027955,
+      "combined_score": 0.684291
+    },
+    {
+      "feature": "technical_test_score",
+      "selected": true,
+      "kbest_score": 570.3293,
+      "tree_importance": 0.030916,
+      "combined_score": 0.682243
+    },
+    {
+      "feature": "mock_interview_score",
+      "selected": true,
+      "kbest_score": 525.77623,
+      "tree_importance": 0.027782,
+      "combined_score": 0.617563
+    },
+    {
+      "feature": "graduation_percentage",
+      "selected": true,
+      "kbest_score": 595.93335,
+      "tree_importance": 0.023945,
+      "combined_score": 0.608922
+    },
+    {
+      "feature": "logical_reasoning",
+      "selected": true,
+      "kbest_score": 484.70573,
+      "tree_importance": 0.021842,
+      "combined_score": 0.519507
+    },
+    {
+      "feature": "communication_skills",
+      "selected": true,
+      "kbest_score": 451.62209,
+      "tree_importance": 0.021877,
+      "combined_score": 0.501227
+    },
+    {
+      "feature": "backlogs",
+      "selected": true,
+      "kbest_score": 341.42587,
+      "tree_importance": 0.026411,
+      "combined_score": 0.495989
+    },
+    {
+      "feature": "presentation_skills",
+      "selected": true,
+      "kbest_score": 444.91712,
+      "tree_importance": 0.020626,
+      "combined_score": 0.481686
+    },
+    {
+      "feature": "english_proficiency",
+      "selected": true,
+      "kbest_score": 428.2912,
+      "tree_importance": 0.020191,
+      "combined_score": 0.466798
+    },
+    {
+      "feature": "github_activity_score",
+      "selected": true,
+      "kbest_score": 316.43522,
+      "tree_importance": 0.021156,
+      "combined_score": 0.41567
+    },
+    {
+      "feature": "teamwork",
+      "selected": true,
+      "kbest_score": 325.25511,
+      "tree_importance": 0.019329,
+      "combined_score": 0.397644
+    },
+    {
+      "feature": "internships_count",
+      "selected": true,
+      "kbest_score": 218.51401,
+      "tree_importance": 0.023868,
+      "combined_score": 0.394424
+    }
+  ],
+  "trained_at": "2026-09-23T23:07:25"
+}

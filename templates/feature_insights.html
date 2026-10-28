@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}Feature Insights - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">Feature selection and patterns</span>
+        <h1>What Drives The Prediction</h1>
+        <p>Selected features, dropped features, model-ranked signals, and placement pattern summaries.</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            {% for insight in insights %}
+                <div class="col-md-6">
+                    <div class="info-card compact h-100">{{ insight }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Placement Feature Ranking</h2>
+                    <div class="table-responsive feature-table-wrap">
+                        <table class="table smart-table">
+                            <thead><tr><th>Feature</th><th>Selected</th><th>Score</th><th>Tree Importance</th></tr></thead>
+                            <tbody>
+                            {% for item in reports.placement.top_features[:20] %}
+                                <tr>
+                                    <td>{{ item.feature }}</td>
+                                    <td><span class="badge text-bg-{{ 'success' if item.selected else 'secondary' }}">{{ 'Yes' if item.selected else 'No' }}</span></td>
+                                    <td>{{ item.combined_score }}</td>
+                                    <td>{{ item.tree_importance }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Role Feature Ranking</h2>
+                    <div class="table-responsive feature-table-wrap">
+                        <table class="table smart-table">
+                            <thead><tr><th>Feature</th><th>Selected</th><th>Score</th><th>Tree Importance</th></tr></thead>
+                            <tbody>
+                            {% for item in reports.role.top_features[:20] %}
+                                <tr>
+                                    <td>{{ item.feature }}</td>
+                                    <td><span class="badge text-bg-{{ 'success' if item.selected else 'secondary' }}">{{ 'Yes' if item.selected else 'No' }}</span></td>
+                                    <td>{{ item.combined_score }}</td>
+                                    <td>{{ item.tree_importance }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel mt-4">
+            <div class="section-heading mb-3">
+                <span class="eyebrow dark">Placed vs not placed</span>
+                <h2>Average signal gaps</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table smart-table">
+                    <thead><tr><th>Feature</th><th>Placed Avg</th><th>Not Placed Avg</th><th>Gap</th></tr></thead>
+                    <tbody>
+                    {% for row in placed_patterns %}
+                        <tr>
+                            <td>{{ row.feature.replace('_', ' ')|title }}</td>
+                            <td>{{ row.Placed }}</td>
+                            <td>{{ row['Not Placed'] }}</td>
+                            <td><strong>{{ row.gap }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-4">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">College Tier Trend</h2>
+                    <table class="table smart-table">
+                        <thead><tr><th>Tier</th><th>Students</th><th>Placement %</th></tr></thead>
+                        <tbody>
+                        {% for row in college_tier_table %}
+                            <tr><td>{{ row.college_tier }}</td><td>{{ row.students }}</td><td>{{ row.placement_rate }}</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Degree Trend</h2>
+                    <table class="table smart-table">
+                        <thead><tr><th>Degree</th><th>Students</th><th>Placement %</th></tr></thead>
+                        <tbody>
+                        {% for row in degree_table %}
+                            <tr><td>{{ row.degree_type }}</td><td>{{ row.students }}</td><td>{{ row.placement_rate }}</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Specialization Trend</h2>
+                    <div class="table-responsive mini-table-scroll">
+                        <table class="table smart-table">
+                            <thead><tr><th>Specialization</th><th>Placement %</th></tr></thead>
+                            <tbody>
+                            {% for row in specialization_table %}
+                                <tr><td>{{ row.specialization }}</td><td>{{ row.placement_rate }}</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel mt-4">
+            <h2 class="form-section-title mb-3">Role-Wise Skill Pattern Table</h2>
+            <div class="table-responsive role-pattern-table">
+                <table class="table smart-table">
+                    <thead>
+                    <tr>
+                        {% for key in role_patterns[0].keys() %}
+                            <th>{{ key.replace('_', ' ')|title }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in role_patterns %}
+                        <tr>
+                            {% for value in row.values() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Analytics Dashboard - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">Analytics dashboard</span>
+        <h1>Placement And Role Intelligence</h1>
+        <p>Pattern analysis across placement outcomes, readiness signals, model importance, and role suitability.</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card"><span>{{ stats.students }}</span><small>Profiles</small></div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card"><span>{{ stats.placement_rate }}</span><small>Placement Rate</small></div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card"><span>{{ stats.roles }}</span><small>Role Classes</small></div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card"><span>{{ stats.avg_readiness }}</span><small>Avg Readiness</small></div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for chart in charts %}
+                <div class="col-lg-6 {% if 'Heatmap' in chart.title or 'Patterns' in chart.title %}col-xl-12{% endif %}">
+                    <div class="chart-card">
+                        {{ chart.html|safe }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="panel mt-4">
+            <div class="section-heading mb-3">
+                <span class="eyebrow dark">Model comparison</span>
+                <h2>Training evaluation snapshot</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <h3 class="small-heading">Placement Models</h3>
+                    <div class="table-responsive">
+                        <table class="table smart-table">
+                            <thead><tr><th>Model</th><th>F1</th><th>ROC AUC</th><th>Accuracy</th></tr></thead>
+                            <tbody>
+                            {% for name, row in metrics.placement.comparison.items() %}
+                                <tr class="{% if name == metrics.placement.best_model %}table-success{% endif %}">
+                                    <td>{{ name }}</td>
+                                    <td>{{ row.f1 }}</td>
+                                    <td>{{ row.roc_auc }}</td>
+                                    <td>{{ row.accuracy }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="small-heading">Role Models</h3>
+                    <div class="table-responsive">
+                        <table class="table smart-table">
+                            <thead><tr><th>Model</th><th>Accuracy</th><th>Macro F1</th><th>Weighted F1</th></tr></thead>
+                            <tbody>
+                            {% for name, row in metrics.role.comparison.items() %}
+                                <tr class="{% if name == metrics.role.best_model %}table-success{% endif %}">
+                                    <td>{{ name }}</td>
+                                    <td>{{ row.accuracy }}</td>
+                                    <td>{{ row.f1_macro }}</td>
+                                    <td>{{ row.f1_weighted }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

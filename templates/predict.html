@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Predict Student Placement - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">Student prediction form</span>
+        <h1>Profile Assessment</h1>
+        <p>Enter academic, skill, experience, risk, and domain-interest signals.</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <form method="post" action="{{ url_for('predict') }}" class="smart-form">
+            {% for group in field_groups %}
+                <div class="panel mb-4">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                        <h2 class="form-section-title">{{ group.title }}</h2>
+                        <span class="badge rounded-pill text-bg-light">{{ group.fields|length }} fields</span>
+                    </div>
+                    <div class="row g-3">
+                        {% for field in group.fields %}
+                            {% set value = defaults[field.name] %}
+                            <div class="col-md-6 col-xl-4">
+                                <label class="form-label" for="{{ field.name }}">
+                                    {{ field.label }}
+                                    {% if field.type == 'range' %}
+                                        <span class="range-value" data-range-output="{{ field.name }}">{{ value }}</span>
+                                    {% endif %}
+                                </label>
+                                {% if field.type == 'select' %}
+                                    <select class="form-select" id="{{ field.name }}" name="{{ field.name }}">
+                                        {% for option in field.options %}
+                                            <option value="{{ option }}" {% if option == value %}selected{% endif %}>{{ option }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% elif field.type == 'range' %}
+                                    <input class="form-range smart-range" id="{{ field.name }}" name="{{ field.name }}" type="range"
+                                           min="{{ field.min }}" max="{{ field.max }}" step="{{ field.step }}" value="{{ value }}"
+                                           data-range-input="{{ field.name }}">
+                                {% else %}
+                                    <input class="form-control" id="{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}"
+                                           min="{{ field.min }}" max="{{ field.max }}" step="{{ field.step }}" value="{{ value }}">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="sticky-action-bar">
+                <a href="{{ url_for('index') }}" class="btn btn-light">Cancel</a>
+                <button type="submit" class="btn btn-accent btn-lg">Predict Placement</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Prediction Result - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">Prediction result</span>
+        <h1>Student Hiring Outlook</h1>
+        <p>{{ result.explanation }}</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="result-card status-{{ 'positive' if result.placement_status == 1 else 'negative' }}">
+                    <span class="result-label">Placement Prediction</span>
+                    <h2>{{ result.placement_label }}</h2>
+                    <div class="metric-line">
+                        <span>Placement probability</span>
+                        <strong>{{ result.placement_probability }}%</strong>
+                    </div>
+                    <div class="progress smart-progress">
+                        <div class="progress-bar" style="width: {{ result.placement_probability }}%"></div>
+                    </div>
+                    <div class="metric-line mt-3">
+                        <span>Model confidence</span>
+                        <strong>{{ result.confidence }}%</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="result-card">
+                    <span class="result-label">Readiness Score</span>
+                    <h2>{{ result.readiness.score }}/100</h2>
+                    <span class="badge text-bg-{{ result.readiness.badge_class }} fs-6">{{ result.readiness.level }}</span>
+                    <div class="progress smart-progress mt-3">
+                        <div class="progress-bar bg-{{ result.readiness.badge_class }}" style="width: {{ result.readiness.score }}%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="result-card">
+                    <span class="result-label">Primary Role Match</span>
+                    <h2>{{ result.primary_role }}</h2>
+                    <p class="mb-0">Top role recommendation from the multiclass role model.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-7">
+                <div class="panel h-100">
+                    <h2 class="form-section-title mb-3">Top Recommended Roles</h2>
+                    {% for role in result.top_roles %}
+                        <div class="role-row">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ loop.index }}. {{ role.role }}</strong>
+                                <span>{{ role.probability }}%</span>
+                            </div>
+                            <div class="progress smart-progress small-progress">
+                                <div class="progress-bar" style="width: {{ role.probability }}%"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="panel h-100">
+                    <h2 class="form-section-title mb-3">Top Factors</h2>
+                    <div class="factor-list">
+                        {% for factor in result.top_factors %}
+                            <span>{{ factor }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-6">
+                <div class="panel h-100">
+                    <h2 class="form-section-title mb-3">Strengths</h2>
+                    <ul class="signal-list positive-list">
+                        {% for item in result.strengths %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel h-100">
+                    <h2 class="form-section-title mb-3">Weak Areas</h2>
+                    <ul class="signal-list warning-list">
+                        {% for item in result.weak_areas %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel mt-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                <h2 class="form-section-title">Profile Summary</h2>
+                <a href="{{ url_for('predict') }}" class="btn btn-outline-dark">Run Another Profile</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table smart-table compact-table">
+                    <tbody>
+                    {% for key, value in result.profile.items() %}
+                        <tr>
+                            <th>{{ key.replace('_', ' ')|title }}</th>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

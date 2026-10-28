@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}About - SMART HIRE{% endblock %}
+
+{% block content %}
+<section class="page-header compact">
+    <div class="container">
+        <span class="eyebrow">About the project</span>
+        <h1>Student Placement Prediction System</h1>
+        <p>SMART HIRE is an end-to-end AI/ML web application for employability prediction, role recommendation, and hiring pattern analysis.</p>
+    </div>
+</section>
+
+<section class="section-pad pt-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">How Predictions Are Made</h2>
+                    <p>The project generates a realistic synthetic dataset of student profiles with academic, skill, experience, risk, and domain-interest features. The placement model solves a binary classification problem, while the role model solves a multiclass classification problem across modern tech roles.</p>
+                    <p>Both tasks use a preprocessing pipeline with numeric scaling and categorical one-hot encoding. Multiple algorithms are trained and compared, then the best model is saved as a reusable sklearn pipeline.</p>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <div class="mini-metric">
+                                <span>{{ metrics.placement.best_model }}</span>
+                                <small>Placement model</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mini-metric">
+                                <span>{{ metrics.role.best_model }}</span>
+                                <small>Role model</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="panel h-100">
+                    <h2 class="form-section-title">Tech Stack</h2>
+                    <div class="stack-list">
+                        <span>Python</span>
+                        <span>Flask</span>
+                        <span>pandas</span>
+                        <span>NumPy</span>
+                        <span>scikit-learn</span>
+                        <span>joblib</span>
+                        <span>Plotly</span>
+                        <span>Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Feature selection</span>
+                    <h3>SelectKBest + ExtraTrees</h3>
+                    <p>Filter scores and tree importances are combined to show selected, dropped, and top-ranked features.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Readiness score</span>
+                    <h3>Weighted 0-100 score</h3>
+                    <p>CGPA, aptitude, programming, test performance, interview readiness, projects, internships, certifications, and resume strength are scored with penalties for risk factors.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Batch prediction</span>
+                    <h3>CSV in, CSV out</h3>
+                    <p>Bulk student profiles are validated against the same feature contract used by the manual prediction form.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel mt-4">
+            <h2 class="form-section-title mb-3">Evaluation Metrics</h2>
+            <div class="table-responsive">
+                <table class="table smart-table">
+                    <thead><tr><th>Task</th><th>Best Model</th><th>Train Size</th><th>Test Size</th><th>Selected Features</th></tr></thead>
+                    <tbody>
+                    <tr>
+                        <td>Placement Prediction</td>
+                        <td>{{ metrics.placement.best_model }}</td>
+                        <td>{{ metrics.placement.train_size }}</td>
+                        <td>{{ metrics.placement.test_size }}</td>
+                        <td>{{ metrics.placement.selected_feature_count }}</td>
+                    </tr>
+                    <tr>
+                        <td>Role Recommendation</td>
+                        <td>{{ metrics.role.best_model }}</td>
+                        <td>{{ metrics.role.train_size }}</td>
+                        <td>{{ metrics.role.test_size }}</td>
+                        <td>{{ metrics.role.selected_feature_count }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{
+  "project": "SMART HIRE - Student Placement Prediction System",
+  "dataset_path": "C:\\Users\\Simranjeet Kaur\\Desktop\\DataScienceProject\\smart_hire\\data\\smart_hire_dataset.csv",
+  "dataset_rows": 5000,
+  "placement_positive_rate": 0.598,
+  "roles": [
+    "AI Engineer",
+    "Android Developer",
+    "Backend Developer",
+    "Cloud Engineer",
+    "Cybersecurity Analyst",
+    "Data Analyst",
+    "Data Scientist",
+    "DevOps Engineer",
+    "Flutter Developer",
+    "Frontend Developer",
+    "Full Stack Developer",
+    "ML Engineer",
+    "QA Engineer",
+    "React Native Developer",
+    "Software Engineer",
+    "Web Developer"
+  ],
+  "placement_best_model": "Gradient Boosting",
+  "role_best_model": "Logistic Regression",
+  "last_verified_at": "2026-10-28T22:09:02"
+}

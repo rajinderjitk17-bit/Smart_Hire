@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}SMART HIRE - Placement Intelligence{% endblock %}
+
+{% block content %}
+<section class="home-hero" style="background-image: linear-gradient(90deg, rgba(8, 12, 24, 0.86), rgba(8, 12, 24, 0.36)), url('{{ url_for('static', filename='img/smart_hire_analytics_hero.png') }}');">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <span class="eyebrow">AI powered employability analytics</span>
+                <h1>SMART HIRE</h1>
+                <p class="hero-copy">Predict placement likelihood, identify best-fit tech roles, and understand the student profile signals that drive hiring outcomes.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ url_for('predict') }}" class="btn btn-accent btn-lg">Run Prediction</a>
+                    <a href="{{ url_for('analytics') }}" class="btn btn-ghost btn-lg">View Dashboard</a>
+                </div>
+            </div>
+            <div class="col-lg-5 mt-4 mt-lg-0">
+                <div class="hero-metrics">
+                    <div>
+                        <span>{{ stats.students }}</span>
+                        <small>Training Profiles</small>
+                    </div>
+                    <div>
+                        <span>{{ stats.placement_rate }}</span>
+                        <small>Placement Rate</small>
+                    </div>
+                    <div>
+                        <span>{{ stats.roles }}</span>
+                        <small>Role Classes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-pad">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Prediction</span>
+                    <h3>Placement Probability</h3>
+                    <p>Binary classification estimates whether a student profile crosses the learned placement threshold and returns a confidence score.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Recommendation</span>
+                    <h3>Tech Role Match</h3>
+                    <p>Multiclass role prediction combines skills, interests, projects, and technical signals to rank the top job-role matches.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card h-100">
+                    <span class="card-kicker">Insight</span>
+                    <h3>Feature Intelligence</h3>
+                    <p>Feature selection, importance ranking, readiness scoring, and pattern analysis make the prediction easy to inspect.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-lg-8">
+                <div class="panel">
+                    <div class="section-heading mb-3">
+                        <span class="eyebrow dark">Model Comparison</span>
+                        <h2>Best models selected from multiple candidates</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle smart-table">
+                            <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Selected Model</th>
+                                <th>Primary Metric</th>
+                                <th>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Placement Prediction</td>
+                                <td>{{ stats.placement_model }}</td>
+                                <td>ROC AUC</td>
+                                <td>{{ metrics.placement.comparison[stats.placement_model].roc_auc }}</td>
+                            </tr>
+                            <tr>
+                                <td>Role Recommendation</td>
+                                <td>{{ stats.role_model }}</td>
+                                <td>Weighted F1</td>
+                                <td>{{ metrics.role.comparison[stats.role_model].f1_weighted }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel accent-panel h-100">
+                    <span class="eyebrow dark">Workflow</span>
+                    <ul class="timeline-list">
+                        <li>Generate realistic synthetic placement data</li>
+                        <li>Preprocess numeric and categorical features</li>
+                        <li>Select high-signal features</li>
+                        <li>Compare models and save best pipelines</li>
+                        <li>Serve manual and batch predictions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
